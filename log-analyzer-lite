@@ -1,1 +1,28 @@
+from collections import Counter
+
+def analyze_log(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    methods = Counter()
+    paths = Counter()
+
+    for line in lines:
+        parts = line.split()
+        if len(parts) > 6:
+            method = parts[5].strip('"')
+            path = parts[6]
+            methods[method] += 1
+            paths[path] += 1
+
+    print("\nMost Used HTTP Methods:")
+    for method, count in methods.most_common():
+        print(f"{method}: {count}")
+
+    print("\nTop Accessed Paths:")
+    for path, count in paths.most_common(5):
+        print(f"{path}: {count}")
+
+if __name__ == "__main__":
+    analyze_log("logs/sample_log.log")
 
